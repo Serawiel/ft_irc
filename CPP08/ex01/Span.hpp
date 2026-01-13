@@ -7,6 +7,18 @@
 # include <iostream>
 # include <vector>
 
+class OutOfSizemaxException : public std::exception
+{
+  public:
+	virtual const char *what() const throw();
+};
+
+class NotEnoughNumbersException : public std::exception
+{
+  public:
+	virtual const char *what() const throw();
+};
+
 class Span
 {
   private:
@@ -26,25 +38,12 @@ class Span
 	template <typename T>
 	void addRange(T begin, T end)
 	{
-		while (begin != end)
-		{
-			addNumber(*begin);
-			++begin;
-		}
+		size_t count = std::distance(begin, end);
+		if (v.size() + count > _sizemax)
+			throw OutOfSizemaxException();
+		v.insert(v.end(), begin, end);
 	}
 	void display() const;
-};
-
-class OutOfSizemaxException : public std::exception
-{
-  public:
-	virtual const char *what() const throw();
-};
-
-class NotEnoughNumbersException : public std::exception
-{
-  public:
-	virtual const char *what() const throw();
 };
 
 #endif
