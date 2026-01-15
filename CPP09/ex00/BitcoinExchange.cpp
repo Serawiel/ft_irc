@@ -24,6 +24,8 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &rhs)
 
 void BitcoinExchange::loadDatabase(const std::string &filename)
 {
+	double	price;
+
 	std::ifstream file(filename.c_str());
 	if (!file.is_open())
 	{
@@ -39,7 +41,7 @@ void BitcoinExchange::loadDatabase(const std::string &filename)
 		std::string valueStr;
 		std::getline(ss, date, ',');
 		std::getline(ss, valueStr);
-		double	price = std::atof(valueStr.c_str());
+		price = std::atof(valueStr.c_str());
 		_database[date] = price;
 	}
 }
@@ -67,14 +69,17 @@ std::string BitcoinExchange::trim(std::string str)
 
 void BitcoinExchange::processInput(const std::string &filename)
 {
+	double	value;
+
 	std::ifstream file(filename.c_str());
 	if (!file.is_open())
 	{
-		std::cerr << "Error : could not open file." << std::endl;
+		std::cerr << "Error: could not open file." << std::endl;
 		return ;
 	}
 	std::string line;
-	while (getline(file, line))
+	std::getline(file, line);
+	while (std::getline(file, line))
 	{
 		std::stringstream ss(line);
 		std::string date;
@@ -83,7 +88,7 @@ void BitcoinExchange::processInput(const std::string &filename)
 		std::getline(ss, valueStr);
 		if (valueStr.empty())
 		{
-			std::cerr << "Error: bad input =>" << line << std::endl;
+			std::cerr << "Error: bad input => " << line << std::endl;
 			continue ;
 		}
 		date = trim(date);
@@ -93,8 +98,32 @@ void BitcoinExchange::processInput(const std::string &filename)
 			std::cerr << "Error: bad input => " << date << std::endl;
 			continue ;
 		}
-		double value = std::atof(valueStr.c_str());
-		// 6. Chercher dans _database et afficher
-		// (on verra après)
+		value = std::atof(valueStr.c_str());
+		if (value < 0)
+		{
+			std::cerr << "Error: not a positive number." << std::endl;
+			continue ;
+		}
+		if (value > 1000)
+		{
+			std::cerr << "Error: too large a number." << std::endl;
+			continue ;
+		}
+		std::map<std::string, double>::iterator it = _database.lower_bound(date);
+		if (it == _database.end())
+		{
+			--it;
+		}
+		else if (it->first != date)
+		{
+			if (it == _database.begin())
+			{
+				std::cerr << "Error: date too early." << std::endl;
+				continue ;
+			}
+			--it;
+		}
+		std::cout << date << " => " << value << " = " << it->second
+			* value << std::endl;
 	}
 }
