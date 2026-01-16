@@ -7,24 +7,24 @@ int	main(int argc, char **argv)
 		std::cerr << "Error" << std::endl;
 		return (1);
 	}
-	std::cout << "Before: ";
-	if (argc - 1 <= 4)
-	{
-		for (int i = 1; i < argc; i++)
-			std::cout << " " << argv[i];
-	}
-	else
-	{
-		for (int i = 1; i <= 4; i++)
-			std::cout << " " << argv[i];
-		std::cout << "[...]";
-	}
-	std::cout << std::endl;
 	try
 	{
 		PmergeMeVector pmv;
 		clock_t startV = clock();
 		std::vector<int> resultV = pmv.sort(argc, argv);
+		std::cout << "Before: ";
+		if (argc - 1 <= 4)
+		{
+			for (int i = 1; i < argc; i++)
+				std::cout << " " << argv[i];
+		}
+		else
+		{
+			for (int i = 1; i <= 4; i++)
+				std::cout << " " << argv[i];
+			std::cout << "[...]";
+		}
+		std::cout << std::endl;
 		std::cout << "After: ";
 		if (resultV.size() <= 4)
 			std::cout << resultV << std::endl;

@@ -1,12 +1,12 @@
 #ifndef BITCOINEXCHANGE_HPP
 # define BITCOINEXCHANGE_HPP
 
-# include <map>
-# include <string>
+# include <cstdlib>
+# include <fstream>
 # include <iostream>
-#include <cstdlib>
-#include <fstream>
-#include <sstream>
+# include <map>
+# include <sstream>
+# include <string>
 
 class BitcoinExchange
 {
@@ -23,6 +23,8 @@ class BitcoinExchange
 	void processInput(const std::string &filename);
 	void printDatabase() const;
 	std::string trim(std::string str);
+	bool parseDate(std::string date);
+	bool parseNumber(const std::string &str);
 };
 
 #endif
