@@ -1,0 +1,14 @@
+# Secrets
+secrets/
+
+# Environment
+.env
+
+# Data
+data/
+
+# Logs
+*.log
+
+# IDE
+.vscode/

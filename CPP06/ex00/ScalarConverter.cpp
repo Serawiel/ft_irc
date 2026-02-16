@@ -221,11 +221,11 @@ void ScalarConverter::convertFromDouble(const std::string &s)
 
 void ScalarConverter::convert(const std::string &literal)
 {
-	if (literal.length() == 3 && literal[0] == '\'' && literal[2] == '\'')
-	{
-		convertFromChar(literal[1]);
-		return ;
-	}
+	// if (literal.length() == 3 && literal[0] == '\'' && literal[2] == '\'')
+	// {
+	// 	convertFromChar(literal[1]);
+	// 	return ;
+	// }
 	if (literal.length() == 1 && !std::isdigit(literal[0]))
 	{
 		convertFromChar(literal[0]);
