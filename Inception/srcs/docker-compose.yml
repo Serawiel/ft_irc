@@ -1,0 +1,62 @@
+
+services:
+  nginx:
+    build:
+      context: ./requirements/nginx
+    image: nginx
+    ports:
+      - "443:443"
+    networks:
+      - docker_network
+    depends_on:
+      - wordpress
+    restart: always
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    image: wordpress
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+    networks:
+      - docker_network
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress_data:/var/www/html
+    restart: always
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    image: mariadb
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    networks:
+      - docker_network
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH}/wordpress
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH}/mariadb
+
+networks:
+  docker_network:
