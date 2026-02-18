@@ -3,7 +3,7 @@
 # Read secrets from Docker secrets files
 MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
 MYSQL_PASSWORD=$(cat /run/secrets/db_password)
-MYSQL_USER=$(cat /run/secrets/credentials)
+MYSQL_USER=$(cat /run/secrets/db_user)
 
 # Check if MariaDB is already initialized
 if [ ! -d "/var/lib/mysql/mysql" ]; then
