@@ -3,7 +3,7 @@ set -e
 
 # Read secrets from Docker secrets files
 MYSQL_PASSWORD=$(cat /run/secrets/db_password)
-MYSQL_USER=$(cat /run/secrets/db_user)
+MYSQL_USER=$(cat /run/secrets/credentials)
 
 if [ ! -f /var/www/html/wp-config.php ]; then
     echo "Configuring WordPress..."
