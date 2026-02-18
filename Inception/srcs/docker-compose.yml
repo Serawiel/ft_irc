@@ -72,6 +72,16 @@ services:
       - wordpress_data:/var/www/html
     restart: always
 
+  static-site:
+    build:
+      context: ./requirements/bonus/static-site
+    image: static-site
+    ports:
+      - "8080:80"
+    networks:
+      - docker_network
+    restart: always
+
 volumes:
   wordpress_data:
     driver: local
