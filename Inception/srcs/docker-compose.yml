@@ -18,10 +18,11 @@ services:
     build:
       context: ./requirements/wordpress
     image: wordpress
+    secrets:
+      - db_password
+      - db_user
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
     networks:
       - docker_network
@@ -35,11 +36,12 @@ services:
     build:
       context: ./requirements/mariadb
     image: mariadb
+    secrets:
+    - db_password
+    - db_root_password
+    - db_user
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     networks:
       - docker_network
     volumes:
@@ -62,3 +64,11 @@ volumes:
 
 networks:
   docker_network:
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  db_root_password:
+    file: ./secrets/db_root_password.txt
+  db_user:
+    file: ./secrets/credentials.txt
