@@ -15,4 +15,4 @@ RUN sed -i 's|listen = /run/php/php8.2-fpm.sock|listen = 9001|' \
 
 EXPOSE 9001
 
-CMD ["php-fpm8.2", "--nodaemonize"]
+CMD ["php", "-S", "0.0.0.0:9001", "-t", "/var/www/html"]
