@@ -92,17 +92,22 @@ services:
       - docker_network
     restart: always
 
-  netdata:
+  cadvisor:
     build:
-      context: ./requirements/bonus/netdata
-    image: netdata:1.0
+      context: ./requirements/bonus/cadvisor
+    image: cadvisor:1.0
     ports:
-      - "19999:19999"
+      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /proc:/rootfs/proc:ro
+      - /:/rootfs:ro
     networks:
       - docker_network
     restart: always
+
 
 volumes:
   wordpress_data:
