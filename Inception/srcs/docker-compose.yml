@@ -3,7 +3,7 @@ services:
   nginx:
     build:
       context: ./requirements/nginx
-    image: nginx
+    image: nginx:1.0
     ports:
       - "443:443"
     networks:
@@ -17,7 +17,7 @@ services:
   wordpress:
     build:
       context: ./requirements/wordpress
-    image: wordpress
+    image: wordpress:1.0
     secrets:
       - db_password
       - db_user
@@ -35,7 +35,7 @@ services:
   mariadb:
     build:
       context: ./requirements/mariadb
-    image: mariadb
+    image: mariadb:1.0
     secrets:
     - db_password
     - db_root_password
@@ -51,7 +51,7 @@ services:
   redis:
     build:
       context: ./requirements/bonus/redis
-    image: redis
+    image: redis:1.0
     networks:
       - docker_network
     restart: always
@@ -75,7 +75,7 @@ services:
   static-site:
     build:
       context: ./requirements/bonus/static-site
-    image: static-site
+    image: static-site:1.0
     ports:
       - "80:80"
     networks:
@@ -85,22 +85,21 @@ services:
   adminer:
     build:
       context: ./requirements/bonus/adminer
-    image: adminer
+    image: adminer:1.0
     ports:
       - "9001:9001"
     networks:
       - docker_network
     restart: always
 
-  portainer:
+  netdata:
     build:
-      context: ./requirements/bonus/portainer
-    image: portainer
+      context: ./requirements/bonus/netdata
+    image: netdata:1.0
     ports:
-      - "9443:9000"
+      - "19999:19999"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
     networks:
       - docker_network
     restart: always
@@ -118,12 +117,7 @@ volumes:
       type: none
       o: bind
       device: ${DATA_PATH}/mariadb
-  portainer_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${DATA_PATH}/portainer
+
 
 networks:
   docker_network:
