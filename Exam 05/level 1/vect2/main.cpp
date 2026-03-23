@@ -30,8 +30,8 @@ int	main(void)
 	v1 *= 42; // -84, -168
 	std::cout << v1 << std::endl;
 	v1 = v1 - v1 +v1;
-	std::cout << "v1: " << v1 << std::endl;
-	std::cout << "v2: " << v2 << std::endl;
+	// std::cout << "v1: " << v1 << std::endl;
+	// std::cout << "v2: " << v2 << std::endl;
 	// std::cout << "-v2: " << -v2 << std::endl;
 	// std::cout << "v1[1]: " << v1[1] << std::endl;
 	// v1[1] = 12;
